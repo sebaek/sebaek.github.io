@@ -56,7 +56,7 @@
             </div>
         </header>
 
-        <div id="skillList"></div>
+        <div id="skillList" class="row"></div>
 
     </div>
 
@@ -127,13 +127,27 @@
 
 
 
-    <script src="https://unpkg.com/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="skills.js"></script>
     <script>
 
+        function makeSkillListItems(skills) {
+            return skills.map(skill => {
+                return `
+                    <li href="#" class="list-group-item">
+                        <div class="d-flex w-100">
+                            <h3 class="mb-1">
+                                ${skill[1]}
+                                ${skill[2]}
+                            </h3>
+                        </div>
+                    </li>`;
+            }).join('');
+        }
 
         skills.sort((a, b) => {
             const type = a[0].localeCompare(b[0]);
@@ -142,10 +156,24 @@
             return type || name;
         });
 
-        // 프로그래밍 언어
-        // 프론트엔드
-        // 백엔드
-        // 도구
+        const types = [`프로그래밍 언어`, `도구 및 환경`, `백엔드 및 서버 사이드 프레임워크`, `프론트엔드`]
+
+        types.forEach(type => {
+            $(`#skillList`)
+                .append(`
+                    <div class="col-12 col-md-6">
+                        <div class="card mb-5">
+                            <div class="card-header">
+                                ${type}
+                            </div>
+                            <div class="card-body">
+                                <div class="list-group list-group-flush">
+                                ${makeSkillListItems(skills.filter(skill => skill[0] === type))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>`);
+        })
 
 
     </script>
