@@ -1,131 +1,489 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <title>sebaek</title>
+    <style>
+        :root {
+            --accent: #6366f1;
+            --accent-dark: #4f46e5;
+            --surface: #0f172a;
+            --surface-2: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255,255,255,0.08);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        /* NAV */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        nav svg { opacity: 0.9; }
+
+        nav .nav-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        nav .nav-links {
+            margin-left: auto;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav .nav-links a:hover { color: #fff; }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            padding: 6rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(99,102,241,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(99,102,241,0.15);
+            border: 1px solid rgba(99,102,241,0.4);
+            color: #a5b4fc;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.35rem 0.85rem;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #a5b4fc, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            line-height: 1.75;
+            max-width: 620px;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        .btn-primary-custom {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.6rem;
+            text-decoration: none;
+            border: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .btn-primary-custom:hover {
+            background: var(--accent-dark);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        /* STATS */
+        .stats-bar {
+            background: var(--surface-2);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-bar .stat {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            border-right: 1px solid var(--border);
+        }
+
+        .stats-bar .stat:last-child { border-right: none; }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.03em;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            font-weight: 500;
+        }
+
+        /* SECTIONS */
+        .section {
+            padding: 5rem 1.5rem;
+        }
+
+        .section-light { background: #f8fafc; }
+        .section-white { background: #ffffff; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* SKILL CARDS */
+        .skill-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+        }
+
+        .skill-card:hover {
+            border-color: #a5b4fc;
+            box-shadow: 0 8px 30px rgba(99,102,241,0.12);
+            transform: translateY(-2px);
+        }
+
+        .skill-card-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #475569;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s;
+        }
+
+        .skill-item:last-child { border-bottom: none; }
+        .skill-item:hover { background: #f8fafc; }
+
+        .skill-item-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* REVIEW CARDS */
+        .review-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+            height: 100%;
+        }
+
+        .review-card:hover {
+            border-color: #a5b4fc;
+            box-shadow: 0 12px 40px rgba(99,102,241,0.15);
+            transform: translateY(-3px);
+        }
+
+        .review-img-wrap {
+            overflow: hidden;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .review-img-wrap img {
+            width: 100%;
+            display: block;
+            transition: transform 0.35s ease;
+        }
+
+        .review-card:hover .review-img-wrap img {
+            transform: scale(1.03);
+        }
+
+        .review-body {
+            padding: 1.5rem;
+        }
+
+        .review-quote {
+            font-size: 1.5rem;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .review-footer {
+            padding: 0.75rem 1.5rem;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--surface);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a { color: #a5b4fc; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* FADE IN */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="container px-4 py-5">
-        <header class="pb-3 mb-4 border-bottom">
-            <div href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
+    <!-- NAV -->
+    <nav>
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512" fill="#a5b4fc">
+            <path d="M406.5 399.6C387.4 352.9 341.5 320 288 320l-64 0c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3l64 0c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z"/>
+        </svg>
+        <span class="nav-name">sebaek</span>
+        <div class="nav-links">
+            <a href="#skills">기술 스택</a>
+            <a href="#reviews">수강평</a>
+            <a href="https://www.github.com/sebaek">GitHub</a>
+        </div>
+    </nav>
 
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32"
-                    viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                        d="M406.5 399.6C387.4 352.9 341.5 320 288 320l-64 0c-53.5 0-99.4 32.9-118.5 79.6C69.9 362.2 48 311.7 48 256C48 141.1 141.1 48 256 48s208 93.1 208 208c0 55.7-21.9 106.2-57.5 143.6zm-40.1 32.7C334.4 452.4 296.6 464 256 464s-78.4-11.6-110.5-31.7c7.3-36.7 39.7-64.3 78.5-64.3l64 0c38.8 0 71.2 27.6 78.5 64.3zM256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-272a40 40 0 1 1 0-80 40 40 0 1 1 0 80zm-88-40a88 88 0 1 0 176 0 88 88 0 1 0 -176 0z" />
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 576 512" fill="currentColor">
+                    <path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z"/>
                 </svg>
-                <span class="fs-4 ms-3">강사 소개</span>
+                13년+ 강의 경력
             </div>
-        </header>
-
-        <div class="p-5 mb-4 bg-body-tertiary rounded-3">
-            <div class="container-fluid py-5">
-                <h1 class="display-5 fw-bold">JAVA 웹 애플리케이션 개발 강사</h1>
-                <p class="col-md-8 fs-4">13년 이상의 Java 개발 및 Java 웹 애플리케이션 강의 경력을 보유한 전문가입니다. Spring Boot, React, SQL, Git
-                    등 다양한 기술 스택을 활용한 웹 애플리케이션 개발 경험이 풍부하며, 강의 및 교육을 통해 다수의 개발자를 양성한 경험이 있습니다.
-                </p>
-
-                <a class="btn btn-primary btn-lg" href="https://www.github.com/sebaek">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="#ffffff" width="1.25rem" height="1.25rem"
-                        viewBox="0 0 496 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                        <path
-                            d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+            <h1>JAVA 웹 애플리케이션<br><span>개발 강사</span></h1>
+            <p>Spring Boot, React, SQL, Git 등 다양한 기술 스택을 활용한 웹 애플리케이션 개발 경험이 풍부하며, 강의 및 교육을 통해 다수의 개발자를 양성한 전문가입니다.</p>
+            <div class="hero-actions">
+                <a class="btn-primary-custom" href="https://www.github.com/sebaek">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 496 512" fill="currentColor">
+                        <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/>
                     </svg>
-                    github
+                    GitHub 프로필
                 </a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container px-4 py-5" id="icon-grid">
-        <header class="pb-3 mb-4 border-bottom">
-            <div href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32"
-                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                        d="M96 0C43 0 0 43 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z" />
-                </svg>
-                <span class="fs-4 ms-3">주요 강의 주제</span>
-            </div>
-        </header>
-
-        <div id="skillList" class="row"></div>
-
-    </div>
-
-
-    <div class="container px-4 py-5" id="icon-grid">
-        <header class="pb-3 mb-4 border-bottom">
-            <div href="/" class="d-flex align-items-center text-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32"
-                    viewBox="0 0 576 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
-                    <path
-                        d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" />
-                </svg>
-                <span class="fs-4 ms-3">최근 수강평</span>
-            </div>
-        </header>
-
-        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
-            <div class="col">
-                <div onclick="window.location='images/(2024-01-30)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정(501).png'"
-                    class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg" style="cursor: pointer;">
-                    <div class="mt-4 px-3"><img
-                            src="images/small/(2024-01-30)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정(501).png"
-                            class="img-fluid" alt=""></div>
-                    <div class="d-flex flex-column h-100 p-5 text-black text-shadow-1">
-                        <h3 class="my-4 lead fw-bold">강사님은 친절하셨고 최대한 모든 수강생이 따라올 수 있도록 배려해주셨습니다.</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="px-3 py-2">
-                            <small>클릭해서 전체 내용 보기</small>
-                        </div>
-                    </div>
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-4 stat">
+                    <div class="stat-number">13+</div>
+                    <div class="stat-label">년 경력</div>
                 </div>
-            </div>
-
-            <div class="col">
-                <div onclick="window.location='images/(2023-07-25)[이대정보]자바(JAVA)기반 풀스택 개발자 취업과정(602호).png'"
-                    class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg" style="cursor: pointer;">
-                    <div class="mt-4 px-3"><img src="images/small/(2023-07-25)[이대정보]자바(JAVA)기반 풀스택 개발자 취업과정(602호).png"
-                            class="img-fluid" alt=""></div>
-                    <div class="d-flex flex-column h-100 p-5 text-black text-shadow-1">
-                        <h3 class="my-4 lead fw-bold">강사님이 잘 가르쳐줘서 좋았습니다</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="px-3 py-2">
-                            <small>클릭해서 전체 내용 보기</small>
-                        </div>
-                    </div>
+                <div class="col-4 stat">
+                    <div class="stat-number">Java</div>
+                    <div class="stat-label">주 전문 언어</div>
                 </div>
-            </div>
-            <div class="col">
-                <div onclick="window.location='images/(2023-01-26)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정.png'"
-                    class="card card-cover h-100 overflow-hidden rounded-4 shadow-lg" style="cursor: pointer;">
-                    <div class="mt-4 px-3"><img src="images/small/(2023-01-26)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정.png"
-                            class="img-fluid" alt=""></div>
-                    <div class="d-flex flex-column h-100 p-5 text-black text-shadow-1">
-                        <h3 class="my-4 lead fw-bold">정말 만족했습니다 !!</h3>
-                    </div>
-                    <div class="card-footer">
-                        <div class="px-3 py-2">
-                            <small>클릭해서 전체 내용 보기</small>
-                        </div>
-                    </div>
+                <div class="col-4 stat">
+                    <div class="stat-number">Full</div>
+                    <div class="stat-label">Stack 강의</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- SKILLS -->
+    <section class="section section-light" id="skills">
+        <div class="container">
+            <div class="section-tag">기술 스택</div>
+            <div class="section-title">주요 강의 주제</div>
+            <div class="section-subtitle">다양한 영역의 기술을 강의합니다</div>
+            <div class="row g-4" id="skillList"></div>
+        </div>
+    </section>
 
+    <!-- REVIEWS -->
+    <section class="section section-white" id="reviews">
+        <div class="container">
+            <div class="section-tag">수강생 후기</div>
+            <div class="section-title">최근 수강평</div>
+            <div class="section-subtitle">수강생분들의 생생한 후기입니다</div>
+            <div class="row g-4">
+                <div class="col-12 col-lg-4 fade-in">
+                    <div class="review-card"
+                        onclick="window.location='images/(2024-01-30)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정(501).png'">
+                        <div class="review-img-wrap">
+                            <img src="images/small/(2024-01-30)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정(501).png" alt="수강평">
+                        </div>
+                        <div class="review-body">
+                            <div class="review-quote">"</div>
+                            <div class="review-text">강사님은 친절하셨고 최대한 모든 수강생이 따라올 수 있도록 배려해주셨습니다.</div>
+                        </div>
+                        <div class="review-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-192c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/></svg>
+                            클릭해서 전체 내용 보기
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-12 col-lg-4 fade-in" style="transition-delay: 0.1s;">
+                    <div class="review-card"
+                        onclick="window.location='images/(2023-07-25)[이대정보]자바(JAVA)기반 풀스택 개발자 취업과정(602호).png'">
+                        <div class="review-img-wrap">
+                            <img src="images/small/(2023-07-25)[이대정보]자바(JAVA)기반 풀스택 개발자 취업과정(602호).png" alt="수강평">
+                        </div>
+                        <div class="review-body">
+                            <div class="review-quote">"</div>
+                            <div class="review-text">강사님이 잘 가르쳐줘서 좋았습니다</div>
+                        </div>
+                        <div class="review-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-192c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/></svg>
+                            클릭해서 전체 내용 보기
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-4 fade-in" style="transition-delay: 0.2s;">
+                    <div class="review-card"
+                        onclick="window.location='images/(2023-01-26)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정.png'">
+                        <div class="review-img-wrap">
+                            <img src="images/small/(2023-01-26)[이대인재]프로젝트 기반 자바(JAVA) 응용 SW개발자 취업과정.png" alt="수강평">
+                        </div>
+                        <div class="review-body">
+                            <div class="review-quote">"</div>
+                            <div class="review-text">정말 만족했습니다 !!</div>
+                        </div>
+                        <div class="review-footer">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-192c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"/></svg>
+                            클릭해서 전체 내용 보기
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p style="margin:0;">sebaek &nbsp;·&nbsp; <a href="https://www.github.com/sebaek">github.com/sebaek</a></p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -135,46 +493,40 @@
     <script src="skills.js"></script>
     <script>
 
-        function makeSkillListItems(skills) {
-            return skills.map(skill => {
-                return `
-                    <li href="#" class="list-group-item">
-                        <div class="d-flex w-100">
-                            <h3 class="mb-1">
-                                ${skill[1]}
-                                ${skill[2]}
-                            </h3>
-                        </div>
-                    </li>`;
-            }).join('');
+        function makeSkillItems(skills) {
+            return skills.map(skill => `
+                <div class="skill-item">
+                    ${skill[1]}
+                    <span class="skill-item-name">${skill[2]}</span>
+                </div>`
+            ).join('');
         }
 
-        skills.sort((a, b) => {
-            const type = a[0].localeCompare(b[0]);
-            const name = a[2].localeCompare(b[2]);
+        skills.sort((a, b) => a[0].localeCompare(b[0]) || a[2].localeCompare(b[2]));
 
-            return type || name;
-        });
-
-        const types = [`프로그래밍 언어`, `도구 및 환경`, `백엔드 및 서버 사이드 프레임워크`, `프론트엔드`]
+        const types = [`프로그래밍 언어`, `도구 및 환경`, `백엔드 및 서버 사이드 프레임워크`, `프론트엔드`];
 
         types.forEach(type => {
-            $(`#skillList`)
-                .append(`
-                    <div class="col-12 col-md-6">
-                        <div class="card mb-5">
-                            <div class="card-header">
-                                ${type}
-                            </div>
-                            <div class="card-body">
-                                <div class="list-group list-group-flush">
-                                ${makeSkillListItems(skills.filter(skill => skill[0] === type))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>`);
-        })
+            $('#skillList').append(`
+                <div class="col-12 col-md-6 fade-in">
+                    <div class="skill-card">
+                        <div class="skill-card-header">${type}</div>
+                        ${makeSkillItems(skills.filter(s => s[0] === type))}
+                    </div>
+                </div>`);
+        });
 
+        // Fade-in on scroll
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
     </script>
 </body>
